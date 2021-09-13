@@ -99,7 +99,7 @@ def main():
     response = requests.get("https://crane.ggcr.dev/ls/" + args.container)
     if response.status_code != 200:
         sys.exit("Issue retrieving manifest for %s" % args.container)
-    tags = [x for x in response.text.split("\n") if x]
+    tags = [x for x in response.text.split("\n") if x and "DENIED" not in x]
 
     # Prepare set of metadata for each
     metadata = {tag: {} for tag in tags}
@@ -129,7 +129,7 @@ def main():
         updated_at=datetime.now(),
     )
     print(result)
-    if args.outdir == ".":
+    if not args.output or args.outdir == ".":
         args.outdir = os.getcwd()
     filename = os.path.join(args.outdir, "%s.md" % args.container.replace("/", "-"))
     write_file(result, filename)
