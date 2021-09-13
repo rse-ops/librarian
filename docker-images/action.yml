@@ -1,0 +1,89 @@
+name: 'Docker Images Librarian'
+description: "The Docker images librarian will take, as input, a container URI, calculate the size for it, and generate a markdown metadata file in a directory of interest."
+inputs:
+  container:
+    description: the complete container uri (without a tag)
+    required: true
+  outdir:
+    description: The output directory to save markdown to
+    required: false
+  dockerfile:
+    description: The directory with a Dockerfile, if for a single container
+    required: false
+  root:
+    description: The directory with subfolders with tags (each with a Dockerfile).
+    required: false
+  deploy:
+    description: Deploy the updated metadata file to the same repository, branch specified
+    required: false
+    default: false
+  branch:
+    description: Branch to deploy to (defaults to gh-pages) of the same repository
+    required: false
+    default: gh-pages
+
+outputs:
+  filename:
+    description: "Output file generated"
+  compressed_size:
+    description: "The compressed size of the container (MB)"
+    
+runs:
+  using: "composite"
+  steps:
+    - name: Prepare Library Record
+      id: summary
+      env:
+        container: ${{ inputs.container }}
+      run: |
+        docker image save "${{ env.container }}" > container
+        tar -czvf container.tar.gz container > /dev/null
+        docker_system=$(docker system df -v | grep "$container")
+        docker_data=($docker_system)
+        raw=$(ls -lh --block-size=MB | grep "container.tar.gz")
+        raw_data=($raw)
+        echo "[[ Build Summary: $container ]]"
+        echo "URL              :  ${docker_data[0]}"
+        echo "Version          :  ${docker_data[1]}"
+        echo "Raw Size         :  ${docker_data[6]}"
+        echo "Compressed Size  :  ${raw_data[4]}"
+        echo "::set-output name=compressed_size::${raw_data[4]}"
+
+    - name: Install Python Dependencies
+      run: pip install requests jinja2
+
+    - name: Run action entrypoint
+      id: librarian
+      env:
+        INPUT_SIZE: ${{ steps.summary.outputs.compressed_size }}
+      run: ./entrypoint.sh
+      shell: bash
+
+    - name: Library Deploy
+      if: (inputs.deploy == 'true')
+      env:
+        filename: ${{ steps.librarian.outputs.filename }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ inputs.branch }}
+      run: |
+        printf "GitHub Actor: ${GITHUB_ACTOR}\n"
+        git config --global user.name "github-actions"
+        git config --global user.email "github-actions@users.noreply.github.com"
+
+        # Clone GitHub pages branch with site
+        git clone -b ${branch} https://github.com/${GITHUB_REPOSITORY} /tmp/repo
+        cd /tmp/repo
+        
+        git add ${{ env.filename }}
+
+        set +e
+        git status | grep modified
+        if [ $? -eq 0 ]; then
+            set -e
+            printf "Changes\n"
+            git commit -m "Automated push to update library $(date '+%Y-%m-%d')" || exit 0
+            git push origin ${branch}
+        else
+            set -e
+            printf "No changes\n"
+        fi
