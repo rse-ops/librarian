@@ -21,6 +21,9 @@ inputs:
     description: Branch to deploy to (defaults to gh-pages) of the same repository
     required: false
     default: gh-pages
+  token:
+    description: A GitHub token to push to the same repository
+    required: true
 
 outputs:
   filename:
@@ -63,7 +66,7 @@ runs:
       if: (inputs.deploy == 'true')
       env:
         filename: ${{ steps.librarian.outputs.filename }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ inputs.token }}
         branch: ${{ inputs.branch }}
       run: |
         printf "GitHub Actor: ${GITHUB_ACTOR}\n"

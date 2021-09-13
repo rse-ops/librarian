@@ -45,8 +45,8 @@ jobs:
         
           # Container is required, without tag e.g., ghcr.io/rse-radiuss/ubuntu
           container: ${{ steps.builder.outputs.container }}
-          tag: ${{ steps.builder.outputs.tag }}
- 
+          token: ${{ secrets.GITHUB_TOKEN }} 
+          
           # ONE of dockerfile OR root should be defined. Root is for dockerhierarchy builds
           # and dockerfile is for a single directory with a Dockerfile
           dockerfile: ${{ steps.builder.outputs.dockerfile }}
