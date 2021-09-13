@@ -129,7 +129,7 @@ def main():
         updated_at=datetime.now(),
     )
     print(result)
-    if not args.output or args.outdir == ".":
+    if not args.outdir or args.outdir == ".":
         args.outdir = os.getcwd()
     filename = os.path.join(args.outdir, "%s.md" % args.container.replace("/", "-"))
     write_file(result, filename)
