@@ -16,7 +16,7 @@ inputs:
   deploy:
     description: Deploy the updated metadata file to the same repository, branch specified
     required: false
-    default: false
+    default: true
   branch:
     description: Branch to deploy to (defaults to gh-pages) of the same repository
     required: false
