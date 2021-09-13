@@ -19,8 +19,8 @@ template = """---
 layout: container
 name: {{ container }}
 updated_at: {{ updated_at }}
-{% if size %}size: {{ size }}MB{% endif %}
-{% if raw_size %}raw_size: {{ raw_size }}MB{% endif %}
+{% if size %}size: {{ size }}{% endif %}
+{% if raw_size %}raw_size: {{ raw_size }}{% endif %}
 container_url: https://github.com/orgs/rse-radiuss/packages/container/package/{{ name }}
 versions:
 {% for tag, metadata in metadata.items() %} - tag: {{ tag }}
@@ -59,10 +59,10 @@ def get_parser():
         help="Write test results to this directory",
     )
     gen.add_argument(
-        "--size", dest="size", help="Compressed size of container in MB", type=int
+        "--size", dest="size", help="Compressed size of container in MB"
     )
     gen.add_argument(
-        "--raw-size", dest="raw_size", help="Raw size of container in MB", type=int
+        "--raw-size", dest="raw_size", help="Raw size of container in MB"
     )
 
     gen.add_argument(

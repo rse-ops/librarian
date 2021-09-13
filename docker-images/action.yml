@@ -63,7 +63,13 @@ runs:
       env:
         INPUT_COMPRESSED_SIZE: ${{ steps.summary.outputs.raw_size }}
         INPUT_RAW_SIZE: ${{ steps.summary.outputs.compressed_size }}
+        INPUT_CONTAINER: ${{ inputs.container }}
+        INPUT_DOCKERFILE: ${{ inputs.dockerfile }}
+        INPUT_ROOT: ${{ inputs.root }}
+        INPUT_OUTDIR: ${{ inputs.outdir }}
+        INPUT_BRANCH: ${{ inputs.branch }}
         ACTION_DIR: ${{ github.action_path }}
+
       run: ${{ github.action_path }}/entrypoint.sh
       shell: bash
 
