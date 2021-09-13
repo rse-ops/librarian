@@ -2,9 +2,10 @@
 
 set -e
 
-HERE="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+echo $PWD
+ls 
 
-COMMAND="python $HERE/generate-site.py gen "
+COMMAND="python ${ACTION_DIR}/generate-site.py gen "
 
 # Do we have a dockerfile or a root?
 if [ ! -z "${INPUT_DOCKERFILE}" ]; then
