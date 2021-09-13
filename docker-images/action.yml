@@ -52,6 +52,7 @@ runs:
         echo "Raw Size         :  ${docker_data[6]}"
         echo "Compressed Size  :  ${raw_data[4]}"
         echo "::set-output name=compressed_size::${raw_data[4]}"
+        echo "::set-output name=raw_size::${raw_data[6]}"
 
     - name: Install Python Dependencies
       run: pip install requests jinja2
@@ -60,8 +61,9 @@ runs:
     - name: Run action entrypoint
       id: librarian
       env:
-        INPUT_SIZE: ${{ steps.summary.outputs.compressed_size }}
-      run: ./entrypoint.sh
+        INPUT_COMPRESSED_SIZE: ${{ steps.summary.outputs.raw_size }}
+        INPUT_RAW_SIZE: ${{ steps.summary.outputs.compressed_size }}
+      run: ${{ github.action_path }}/entrypoint.sh
       shell: bash
 
     - name: Library Deploy
@@ -69,5 +71,5 @@ runs:
         filename: ${{ steps.librarian.outputs.filename }}
         GITHUB_TOKEN: ${{ inputs.token }}
         branch: ${{ inputs.branch }}
-      run: ./deploy.sh
+      run: ${{ github.action_path }}/deploy.sh
       shell: bash

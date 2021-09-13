@@ -3,6 +3,7 @@ layout: container
 name: {{ container }}
 updated_at: {{ updated_at }}
 {% if size %}size: {{ size }}MB{% endif %}
+{% if raw_size %}raw_size: {{ raw_size }}MB{% endif %}
 container_url: https://github.com/orgs/rse-radiuss/packages/container/package/{{ name }}
 versions:
 {% for tag, metadata in metadata.items() %} - tag: {{ tag }}

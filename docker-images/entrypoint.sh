@@ -17,9 +17,13 @@ if [ ! -z "${INPUT_OUTDIR}" ]; then
     COMMAND="${COMMAND} --outdir ${INPUT_OUTDIR}"
 fi
 
-# Size in MB?
-if [ ! -z "${INPUT_SIZE}" ]; then
-    COMMAND="${COMMAND} --size ${INPUT_SIZE}"
+# Size in MB (compressed or raw?)
+if [ ! -z "${INPUT_COMPRESSED_SIZE}" ]; then
+    COMMAND="${COMMAND} --size ${INPUT_COMPRESSED_SIZE}"
+fi
+
+if [ ! -z "${INPUT_RAW_SIZE}" ]; then
+    COMMAND="${COMMAND} --raw-size ${INPUT_RAW_SIZE}"
 fi
 
 COMMAND="${COMMAND} ${INPUT_CONTAINER}"

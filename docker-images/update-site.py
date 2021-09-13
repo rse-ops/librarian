@@ -51,7 +51,8 @@ def get_parser():
         dest="outdir",
         help="Write test results to this directory",
     )
-    gen.add_argument("--size", dest="size", help="Size of container in MB", type=int)
+    gen.add_argument("--size", dest="size", help="Compressed size of container in MB", type=int)
+    gen.add_argument("--raw-size", dest="raw_size", help="Raw size of container in MB", type=int)
 
     gen.add_argument(
         "--root",
@@ -108,6 +109,7 @@ def main():
     result = env.get_template("template.md").render(
         metadata=metadata,
         size=args.size,
+        raw_size=args.raw_size,
         container=args.container,
         versions=tags,
         name=os.path.basename(args.container),
