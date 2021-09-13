@@ -34,3 +34,6 @@ echo "${COMMAND}"
 
 ${COMMAND}
 echo $?
+
+echo "${{ inputs.branch }}"
+

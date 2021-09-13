@@ -15,8 +15,9 @@ git config --global user.email "github-actions@users.noreply.github.com"
 # Clone GitHub pages branch with site
 git clone -b ${branch} https://github.com/${GITHUB_REPOSITORY} /tmp/repo
 cd /tmp/repo
-        
-git add ${{ env.filename }}
+
+cp ${{ env.filename }} ${INPUT_OUTDIR}/
+git add ${INPUT_OUTDIR}/*.md
 
 set +e
 git status | grep modified

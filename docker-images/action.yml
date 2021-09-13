@@ -77,6 +77,8 @@ runs:
       env:
         filename: ${{ steps.librarian.outputs.filename }}
         GITHUB_TOKEN: ${{ inputs.token }}
+        INPUT_OUTDIR: ${{ inputs.outdir }}
+        INPUT_DEPLOY: ${{ inputs.deploy }}
         branch: ${{ inputs.branch }}
       run: ${{ github.action_path }}/deploy.sh
       shell: bash
