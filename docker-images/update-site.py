@@ -9,20 +9,27 @@ import argparse
 from datetime import datetime
 import logging
 import os
-import subprocess
 import sys
 import requests
-from jinja2 import Environment, FileSystemLoader, select_autoescape
+from jinja2 import Environment, BaseLoader, select_autoescape
 
 logging.basicConfig(level=logging.INFO)
 
-# We want the root
-here = os.path.abspath(os.path.dirname(__file__))
-templates = os.path.join(here, "templates")
+template = """---
+layout: container
+name: {{ container }}
+updated_at: {{ updated_at }}
+{% if size %}size: {{ size }}MB{% endif %}
+{% if raw_size %}raw_size: {{ raw_size }}MB{% endif %}
+container_url: https://github.com/orgs/rse-radiuss/packages/container/package/{{ name }}
+versions:
+{% for tag, metadata in metadata.items() %} - tag: {{ tag }}
+   dockerfile: https://github.com/rse-radiuss/docker-images/blob/main/{{ metadata.dockerfile }}
+   manifest: {{ metadata.manifest }}
+{% endfor %}
+---"""
 
-env = Environment(
-    autoescape=select_autoescape(["html"]), loader=FileSystemLoader(templates)
-)
+env = Environment(autoescape=select_autoescape(["html"]), loader=BaseLoader())
 
 
 def write_file(content, filename):
@@ -51,8 +58,12 @@ def get_parser():
         dest="outdir",
         help="Write test results to this directory",
     )
-    gen.add_argument("--size", dest="size", help="Compressed size of container in MB", type=int)
-    gen.add_argument("--raw-size", dest="raw_size", help="Raw size of container in MB", type=int)
+    gen.add_argument(
+        "--size", dest="size", help="Compressed size of container in MB", type=int
+    )
+    gen.add_argument(
+        "--raw-size", dest="raw_size", help="Raw size of container in MB", type=int
+    )
 
     gen.add_argument(
         "--root",
@@ -95,7 +106,9 @@ def main():
 
     # manifests
     for tag in tags:
-        metadata[tag]["manifest"] = "https://crane.ggcr.dev/manifest/" + args.container + ":" + tag
+        metadata[tag]["manifest"] = (
+            "https://crane.ggcr.dev/manifest/" + args.container + ":" + tag
+        )
 
     # Prepare paths to dockerfiles
     if args.root:
@@ -103,10 +116,10 @@ def main():
             metadata[tag]["dockerfile"] = os.path.join(args.root, tag, "Dockerfile")
     elif args.dockerfile:
         for tag in tags:
-            metadata[tag]["dockerfile"] = os.path.join(args.dockerfile, "Dockerfile")        
+            metadata[tag]["dockerfile"] = os.path.join(args.dockerfile, "Dockerfile")
 
     # Render into template!
-    result = env.get_template("template.md").render(
+    result = env.from_string(template).render(
         metadata=metadata,
         size=args.size,
         raw_size=args.raw_size,
@@ -116,11 +129,12 @@ def main():
         updated_at=datetime.now(),
     )
     print(result)
-    if outdir == ".":
-        outdir = os.getcwd()
-    filename = os.path.join(outdir, "%s.md" % args.container.replace("/", "-"))
+    if args.outdir == ".":
+        args.outdir = os.getcwd()
+    filename = os.path.join(args.outdir, "%s.md" % args.container.replace("/", "-"))
     write_file(result, filename)
     print("::set-output name=filename::%s" % filename)
+
 
 if __name__ == "__main__":
     main()
