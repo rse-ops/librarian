@@ -5,10 +5,7 @@ set -e
 echo $PWD
 ls 
 
-# This entrypoint script is isolated so we have to download the Python runner
-wget https://raw.githubusercontent.com/rse-radiuss/librarian/main/docker-images/update-site.py
-chmod +x generate-site.py
-COMMAND="python ./generate-site.py gen "
+COMMAND="python ${ACTION_DIR}/update-site.py gen "
 
 # Do we have a dockerfile or a root?
 if [ ! -z "${INPUT_DOCKERFILE}" ]; then
