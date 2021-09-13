@@ -51,8 +51,8 @@ runs:
         echo "Version          :  ${docker_data[1]}"
         echo "Raw Size         :  ${docker_data[6]}"
         echo "Compressed Size  :  ${raw_data[4]}"
-        echo "::set-output name=compressed_size::${raw_data[4]}MB"
-        echo "::set-output name=raw_size::${raw_data[6]}"
+        echo "::set-output name=compressed_size::${raw_data[4]}"
+        echo "::set-output name=raw_size::${docker_data[6]}"
 
     - name: Install Python Dependencies
       run: pip install requests jinja2
