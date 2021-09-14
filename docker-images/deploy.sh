@@ -25,10 +25,12 @@ else
     printf "Outdir defined to be $INPUT_OUTDIR.\n"
 fi
 
-printf "Markdown file generated was ${filename}"
-cp ${filename} ${INPUT_OUTDIR}/
+printf "Markdown file generated was ${filename}\n"
+filebase=$(basename $filename)
+cp ${filename} ${INPUT_OUTDIR}/${filebase}
 
-git add ${INPUT_OUTDIR}/*.md
+git add ${INPUT_OUTDIR}/${filebase}
+git status
 
 set +e
 git status | grep modified
