@@ -40,6 +40,7 @@ runs:
         container: ${{ inputs.container }}
       shell: bash
       run: |
+        docker system prune -f
         docker image save "${{ env.container }}" > container
         tar -czvf container.tar.gz container > /dev/null
         docker_system=$(docker system df -v | grep "$container")
