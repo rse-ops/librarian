@@ -33,7 +33,7 @@ git add ${INPUT_OUTDIR}/${filebase}
 git status
 
 set +e
-git status | grep modified
+git status | grep -e "modified" -e "new"
 if [ $? -eq 0 ]; then
     set -e
     printf "Changes\n"
