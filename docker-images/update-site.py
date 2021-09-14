@@ -129,6 +129,7 @@ def main():
         args.outdir = os.getcwd()
     filename = os.path.join(args.outdir, "%s.md" % args.container.replace("/", "-"))
     write_file(result, filename)
+    print("Output file set to: %s" % filename)
     print("::set-output name=filename::%s" % filename)
 
 

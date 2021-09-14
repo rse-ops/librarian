@@ -15,8 +15,19 @@ git config --global user.email "github-actions@users.noreply.github.com"
 # Clone GitHub pages branch with site
 git clone -b ${branch} https://github.com/${GITHUB_REPOSITORY} /tmp/repo
 cd /tmp/repo
+ls .
 
+# If no output directory defined, use PWD
+if [ -z "${INPUT_OUTDIR+x}" ]; then 
+    printf "No outdir defined, will use $PWD.\n"
+    INPUT_OUTDIR=$PWD
+else
+    printf "Outdir defined to be $INPUT_OUTDIR.\n"
+fi
+
+printf "Markdown file generated was ${filename}"
 cp ${filename} ${INPUT_OUTDIR}/
+
 git add ${INPUT_OUTDIR}/*.md
 
 set +e
