@@ -16,7 +16,7 @@ git config --global user.email "github-actions@users.noreply.github.com"
 git clone -b ${branch} https://github.com/${GITHUB_REPOSITORY} /tmp/repo
 cd /tmp/repo
 
-cp ${{ env.filename }} ${INPUT_OUTDIR}/
+cp ${filename} ${INPUT_OUTDIR}/
 git add ${INPUT_OUTDIR}/*.md
 
 set +e
