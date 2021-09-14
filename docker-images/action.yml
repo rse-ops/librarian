@@ -66,7 +66,6 @@ runs:
         INPUT_CONTAINER: ${{ inputs.container }}
         INPUT_DOCKERFILE: ${{ inputs.dockerfile }}
         INPUT_ROOT: ${{ inputs.root }}
-        INPUT_OUTDIR: ${{ inputs.outdir }}
         INPUT_BRANCH: ${{ inputs.branch }}
         ACTION_DIR: ${{ github.action_path }}
 

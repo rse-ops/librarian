@@ -14,11 +14,6 @@ elif [ ! -z "${INPUT_ROOT}" ]; then
     COMMAND="${COMMAND} --root ${INPUT_ROOT}"
 fi
 
-# Output directory?
-if [ ! -z "${INPUT_OUTDIR}" ]; then
-    COMMAND="${COMMAND} --outdir ${INPUT_OUTDIR}"
-fi
-
 # Size in MB (compressed or raw?)
 if [ ! -z "${INPUT_COMPRESSED_SIZE}" ]; then
     COMMAND="${COMMAND} --size ${INPUT_COMPRESSED_SIZE}"
