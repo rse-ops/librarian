@@ -13,7 +13,7 @@ git config --global user.name "github-actions"
 git config --global user.email "github-actions@users.noreply.github.com"
 
 # Clone GitHub pages branch with site
-git clone -b ${branch} https://${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git /tmp/repo
+git clone -b ${branch} https://github.com/${GITHUB_REPOSITORY}.git /tmp/repo
 cd /tmp/repo
 ls .
 
@@ -29,6 +29,7 @@ printf "Markdown file generated was ${filename}\n"
 filebase=$(basename $filename)
 cp ${filename} ${INPUT_OUTDIR}/${filebase}
 
+git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
 git add ${INPUT_OUTDIR}/${filebase}
 git status
 
