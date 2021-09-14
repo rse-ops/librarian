@@ -13,7 +13,7 @@ git config --global user.name "github-actions"
 git config --global user.email "github-actions@users.noreply.github.com"
 
 # Clone GitHub pages branch with site
-git clone -b ${branch} https://github.com/${GITHUB_REPOSITORY} /tmp/repo
+git clone -b ${branch} https://${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git /tmp/repo
 cd /tmp/repo
 ls .
 
