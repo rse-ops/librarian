@@ -40,8 +40,10 @@ runs:
         container: ${{ inputs.container }}
       shell: bash
       run: |
+        printf "Calculating size from docker system\n"
         docker_system=$(docker system df -v | grep "$container")
         docker_data=($docker_system)
+        printf "Calculating compressed size from docker manifest\n"
         compressed_size=$(docker manifest inspect -v $container | grep size  | awk -F ':' '{sum+=$NF} END {print sum}' | numfmt --to=iec)
         echo "[[ Build Summary: $container ]]"
         echo "URL              :  ${docker_data[0]}"
