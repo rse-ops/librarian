@@ -40,18 +40,18 @@ runs:
         container: ${{ inputs.container }}
       shell: bash
       run: |
-        printf "Calculating size from docker system\n"
-        docker_system=$(docker system df -v | grep "$container")
-        docker_data=($docker_system)
+        #printf "Calculating size from docker system\n"
+        #docker_system=$(docker system df -v | grep "$container")
+        #docker_data=($docker_system)
         printf "Calculating compressed size from docker manifest\n"
         compressed_size=$(docker manifest inspect -v $container | grep size  | awk -F ':' '{sum+=$NF} END {print sum}' | numfmt --to=iec)
         echo "[[ Build Summary: $container ]]"
-        echo "URL              :  ${docker_data[0]}"
-        echo "Version          :  ${docker_data[1]}"
-        echo "Raw Size         :  ${docker_data[6]}"
+        #echo "URL              :  ${docker_data[0]}"
+        #echo "Version          :  ${docker_data[1]}"
+        #echo "Raw Size         :  ${docker_data[6]}"
         echo "Compressed Size  :  ${compressed_size}B"
         echo "::set-output name=compressed_size::${compressed_size}B"
-        echo "::set-output name=raw_size::${docker_data[6]}"
+        echo "::set-output name=raw_size::not-calculated"
 
     - name: Install Python Dependencies
       run: pip install requests jinja2
