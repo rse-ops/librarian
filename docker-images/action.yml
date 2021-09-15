@@ -40,19 +40,15 @@ runs:
         container: ${{ inputs.container }}
       shell: bash
       run: |
-        docker system prune -f
-        docker image save "${{ env.container }}" > container
-        tar -czvf container.tar.gz container > /dev/null
         docker_system=$(docker system df -v | grep "$container")
         docker_data=($docker_system)
-        raw=$(ls -lh --block-size=MB | grep "container.tar.gz")
-        raw_data=($raw)
+        compressed_size=$(docker manifest inspect -v $container | grep size  | awk -F ':' '{sum+=$NF} END {print sum}' | numfmt --to=iec)
         echo "[[ Build Summary: $container ]]"
         echo "URL              :  ${docker_data[0]}"
         echo "Version          :  ${docker_data[1]}"
         echo "Raw Size         :  ${docker_data[6]}"
-        echo "Compressed Size  :  ${raw_data[4]}"
-        echo "::set-output name=compressed_size::${raw_data[4]}"
+        echo "Compressed Size  :  ${compressed_size}B"
+        echo "::set-output name=compressed_size::${compressed_size}B"
         echo "::set-output name=raw_size::${docker_data[6]}"
 
     - name: Install Python Dependencies
