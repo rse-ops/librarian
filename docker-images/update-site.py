@@ -89,7 +89,8 @@ def main():
 
     # Container can't have a tag
     if ":" in args.container:
-        sys.exit("%s has a tag, it should not! (found ':')" % args.container)
+        args.container = args.container.split(":", 1)[0]
+        print("Removed tag, container is now %s" % args.container)
 
     # Get tags for the container
     response = requests.get("https://crane.ggcr.dev/ls/" + args.container)
