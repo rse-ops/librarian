@@ -40,7 +40,7 @@ if [ $? -eq 0 ]; then
     printf "Changes\n"
     git commit -m "Automated push to update library $(date '+%Y-%m-%d')" || exit 0
     git pull origin ${branch}
-    git push origin ${branch}
+    git push origin ${branch} || exit 0
 else
     set -e
     printf "No changes\n"
