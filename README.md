@@ -1,11 +1,11 @@
 # The Librarian
 
-![img/radiuss-librarian.png](img/radiuss-librarian.png)
+![img/rse-ops-librarian.png](img/rse-ops-librarian.png)
 
 The librarian (inspired by the [autamus librarian](https://github.com/autamus/librarian)
-is a set of GitHub actions intended to be used to update different RADIUS projects.
+is a set of GitHub actions intended to be used to update different RSE-ops projects.
 
- - [docker-images](docker-images): this librarian creates a metadata entry for a Docker container in [docker-images](https://github.com/rse-radiuss/docker-images)
+ - [docker-images](docker-images): this librarian creates a metadata entry for a Docker container in [docker-images](https://github.com/rse-ops/docker-images)
 
 License
 -------

@@ -40,10 +40,10 @@ jobs:
       # **Run steps in here to define outputs for container, etc.**
 
       - id: runner
-        uses: rse-radiuss/librarian/docker-images@main
+        uses: rse-ops/librarian/docker-images@main
         with:
         
-          # Container is required, without tag e.g., ghcr.io/rse-radiuss/ubuntu
+          # Container is required, without tag e.g., ghcr.io/rse-ops/ubuntu
           container: ${{ steps.builder.outputs.container }}
           token: ${{ secrets.GITHUB_TOKEN }} 
           
@@ -67,11 +67,11 @@ you can also run commands manually. As an example:
 
 ```bash
 # For a Dockerfile build where the tag is in subfolders under ubuntu
-$ python scripts/update-site.py gen ghcr.io/rse-radiuss/ubuntu --outdir $PWD/_library --root ubuntu/
+$ python scripts/update-site.py gen ghcr.io/rse-ops/ubuntu --outdir $PWD/_library --root ubuntu/
 
 # For a matrix build where the Dockerfile is in the root provided
-$ python scripts/update-site.py gen ghcr.io/rse-radiuss/nvidia-ubuntu --outdir $PWD/_library --dockerfile nvidia-ubuntu
-$ python scripts/update-site.py gen ghcr.io/rse-radiuss/clang-ubuntu-20.04 --outdir $PWD/_library --dockerfile ubuntu/clang
-$ python scripts/update-site.py gen ghcr.io/rse-radiuss/cuda-ubuntu-20.04 --outdir $PWD/_library --dockerfile ubuntu/cuda
+$ python scripts/update-site.py gen ghcr.io/rse-ops/nvidia-ubuntu --outdir $PWD/_library --dockerfile nvidia-ubuntu
+$ python scripts/update-site.py gen ghcr.io/rse-ops/clang-ubuntu-20.04 --outdir $PWD/_library --dockerfile ubuntu/clang
+$ python scripts/update-site.py gen ghcr.io/rse-ops/cuda-ubuntu-20.04 --outdir $PWD/_library --dockerfile ubuntu/cuda
 ```
 

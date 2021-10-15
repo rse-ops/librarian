@@ -21,10 +21,10 @@ name: {{ container }}
 updated_at: {{ updated_at }}
 {% if size %}size: {{ size }}{% endif %}
 {% if raw_size %}raw_size: {{ raw_size }}{% endif %}
-container_url: https://github.com/orgs/rse-radiuss/packages/container/package/{{ name }}
+container_url: https://github.com/orgs/rse-ops/packages/container/package/{{ name }}
 versions:
 {% if metadata %}{% for tag, metadata in metadata.items() %} - tag: {{ tag }}
-   dockerfile: https://github.com/rse-radiuss/docker-images/blob/main/{{ metadata.dockerfile }}
+   dockerfile: https://github.com/rse-ops/docker-images/blob/main/{{ metadata.dockerfile }}
    manifest: {{ metadata.manifest }}
 {% endfor %}{% endif %}
 ---"""
@@ -39,7 +39,7 @@ def write_file(content, filename):
 
 def get_parser():
     parser = argparse.ArgumentParser(
-        description="RADIUSS Docker Images Library Builder"
+        description="RSE-ops Docker Images Library Builder"
     )
 
     description = "Generate a library entry for a container"
