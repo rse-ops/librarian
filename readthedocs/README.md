@@ -45,11 +45,12 @@ jobs:
         # Buid on push (but no deploy)
       - uses: rse-ops/librarian/readthedocs@main
         if: (github.event_name == 'push')
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }} 
 
       - uses: rse-ops/librarian/readthedocs@main
         if: (github.event_name == 'pull_request')
         with:        
-          token: ${{ secrets.GITHUB_TOKEN }} 
           deploy: "false"
 ```
 
