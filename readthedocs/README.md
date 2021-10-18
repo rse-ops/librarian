@@ -46,9 +46,8 @@ jobs:
       - uses: rse-ops/librarian/readthedocs@main
         if: (github.event_name == 'push')
 
-        if: (github.event_name == 'pull_request')
       - uses: rse-ops/librarian/readthedocs@main
-        if: (github.event_name == 'push')
+        if: (github.event_name == 'pull_request')
         with:        
           token: ${{ secrets.GITHUB_TOKEN }} 
           deploy: "false"
