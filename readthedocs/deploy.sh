@@ -16,7 +16,9 @@ repo_base=$(pwd)
 
 # Clone GitHub pages branch with site
 set +e
-git clone -b ${branch} https://github.com/${GITHUB_REPOSITORY}.git /tmp/repo || git clone https://github.com/${GITHUB_REPOSITORY}.git /tmp/repo && git checkout -b ${branch}
+git clone -b ${branch} https://github.com/${GITHUB_REPOSITORY}.git /tmp/repo || git clone https://github.com/${GITHUB_REPOSITORY}.git /tmp/repo
+cd /tmp/repo
+git checkout -b ${branch} || printf "Already on ${branch}\n"
 set -e
 
 # Only move .git history over - everything else re-created
