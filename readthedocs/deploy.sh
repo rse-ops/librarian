@@ -9,6 +9,10 @@ if [ "${INPUT_DEPLOY}" != "true" ]; then
 fi
 
 # If we need to deploy, a token is required
+if [[ -z "${GITHUB_TOKEN}" ]]; then
+    printf "GITHUB_TOKEN is not set, cannot deploy\n"
+    exit 1
+fi
 
 
 printf "GitHub Actor: ${GITHUB_ACTOR}\n"
