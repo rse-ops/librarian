@@ -1,0 +1,47 @@
+name: 'ReadtheDocs Librarian'
+description: "Deploy a readthedocs site to GitHub pages (or another branch)"
+inputs:
+  branch:
+    description: the branch to deploy the readthedocs site to (defaults to gh-pages)
+    required: false
+    default: gh-pages
+  dir:
+    description: The directory with your conf.py file (defaults to docs)
+    required: false
+    default: docs
+  requirements:
+    description: A requirements.txt file to install dependencies (defaults to requirements.txt in dir)
+    required: false
+    default: requirements.txt
+  token:
+    description: A GitHub token to push to the same repository
+    required: false
+  deploy:
+    description: Deploy to GitHub pages (defaults to true)
+    required: false
+    default: "true"
+    
+runs:
+  using: "composite"
+  steps:
+    - name: Install Python Dependencies
+      env:
+        REQUIREMENTS_FILE: ${{ inputs.requirements }}
+        DOCS_DIR: ${{ inputs.dir }}
+      run: ${{ github.action_path }}/install.sh
+      shell: bash
+
+    - name: Build Docs
+      env:
+        DOCS_DIR: ${{ inputs.dir }}
+      run: ${{ github.action_path }}/build.sh
+      shell: bash
+
+    - name: Deploy Docs to GitHub Pages
+      env:
+        DOCS_DIR: ${{ inputs.dir }}
+        GITHUB_TOKEN: ${{ inputs.token }}
+        INPUT_DEPLOY: ${{ inputs.deploy }}
+        branch: ${{ inputs.branch }}
+      run: ${{ github.action_path }}/deploy.sh
+      shell: bash
