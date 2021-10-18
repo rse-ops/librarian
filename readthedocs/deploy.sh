@@ -8,6 +8,9 @@ if [ "${INPUT_DEPLOY}" != "true" ]; then
     exit 0
 fi
 
+# If we need to deploy, a token is required
+
+
 printf "GitHub Actor: ${GITHUB_ACTOR}\n"
 git config --global user.name "github-actions"
 git config --global user.email "github-actions@users.noreply.github.com"
@@ -31,6 +34,7 @@ mkdir -p /tmp/repo
 html=${repo_base}/${DOCS_DIR}/_build/html
 cp -R ${html}/* /tmp/repo/
 cd /tmp/repo
+touch .nojekyll
 mv /tmp/git/.git .git
 ls .
 

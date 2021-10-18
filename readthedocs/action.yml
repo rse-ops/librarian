@@ -15,7 +15,7 @@ inputs:
     default: requirements.txt
   token:
     description: A GitHub token to push to the same repository
-    required: true
+    required: false
   deploy:
     description: Deploy to GitHub pages (defaults to true)
     required: false
