@@ -40,8 +40,8 @@ git status | grep -e "modified" -e "new"
 if [ $? -eq 0 ]; then
     set -e
     printf "Changes\n"
-    git commit -m "Automated push to update GitHub pages $(date '+%Y-%m-%d')" || exit 0
-    git pull origin ${branch} || printf "No branch ${branch} yet!\n"
+    git commit -a -m "Automated push to update GitHub pages $(date '+%Y-%m-%d')" || exit 0
+    git pull origin ${branch} || printf "No branch ${branch} yet\n"
     git push origin ${branch} || exit 0
 else
     set -e
