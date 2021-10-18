@@ -6,6 +6,7 @@ The librarian (inspired by the [autamus librarian](https://github.com/autamus/li
 is a set of GitHub actions intended to be used to update different RSE-ops projects.
 
  - [docker-images](docker-images): this librarian creates a metadata entry for a Docker container in [docker-images](https://github.com/rse-ops/docker-images)
+ - [readthedocs](readthedocs): makes it easy to deploy a readthedocs (e.g., sphinx template) to GitHub pages
 
 License
 -------
