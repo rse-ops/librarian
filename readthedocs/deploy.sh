@@ -8,13 +8,6 @@ if [ "${INPUT_DEPLOY}" != "true" ]; then
     exit 0
 fi
 
-# If we need to deploy, a token is required
-if [[ -z "${GITHUB_TOKEN}" ]]; then
-    printf "GITHUB_TOKEN is not set, cannot deploy\n"
-    exit 1
-fi
-
-
 printf "GitHub Actor: ${GITHUB_ACTOR}\n"
 git config --global user.name "github-actions"
 git config --global user.email "github-actions@users.noreply.github.com"
