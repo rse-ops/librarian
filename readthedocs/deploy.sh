@@ -15,7 +15,9 @@ git config --global user.email "github-actions@users.noreply.github.com"
 repo_base=$(pwd)
 
 # Clone GitHub pages branch with site
+set +e
 git clone -b ${branch} https://github.com/${GITHUB_REPOSITORY}.git /tmp/repo || git clone https://github.com/${GITHUB_REPOSITORY}.git && git checkout -b ${branch}
+set -e
 
 # Only move .git history over - everything else re-created
 mkdir -p /tmp/git
