@@ -10,4 +10,4 @@ if [[ ! -f "${DOCS_DIR}/${REQUIREMENTS_FILE}" ]]; then
   printf "Requirements file '${DOCS_DIR}/${REQUIREMENTS_FILE}' does not exist.\n"
   exit 1
 fi
-pip install "${DOCS_DIR}/${REQUIREMENTS_FILE}"
+pip install -r "${DOCS_DIR}/${REQUIREMENTS_FILE}"
