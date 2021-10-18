@@ -30,7 +30,7 @@ To customize to deploy on merge to main, and build on a pull request:
 
 ```yaml
 on: 
-  push
+  push:
     branches:
       - main  
   pull_request: []
