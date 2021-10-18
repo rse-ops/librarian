@@ -23,6 +23,7 @@ set -e
 mkdir -p /tmp/git
 mv /tmp/repo/.git /tmp/git/.git
 rm -rf /tmp/repo
+mkdir -p /tmp/repo
 
 # Path to build
 html=${repo_base}/${DOCS_DIR}/_build/html
