@@ -11,7 +11,8 @@ fi
 printf "GitHub Actor: ${GITHUB_ACTOR}\n"
 git config --global user.name "github-actions"
 git config --global user.email "github-actions@users.noreply.github.com"
-git config pull.rebase false
+git config --global pull.rebase false
+git config --global pull.ff true
 
 # Clone GitHub pages branch with site
 git clone -b ${branch} https://github.com/${GITHUB_REPOSITORY}.git /tmp/repo
