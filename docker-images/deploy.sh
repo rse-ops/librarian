@@ -40,8 +40,9 @@ git status | grep -e "modified" -e "new"
 if [ $? -eq 0 ]; then
     set -e
     printf "Changes\n"
+    # Typically changes are just timestamps, so it's okay for an occasional merge conflict that fails
     git commit -m "Automated push to update library $(date '+%Y-%m-%d')" || exit 0
-    git pull origin ${branch}
+    git pull origin ${branch} || exit 0
     git push origin ${branch} || exit 0
 else
     set -e
