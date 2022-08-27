@@ -11,8 +11,7 @@ fi
 printf "GitHub Actor: ${GITHUB_ACTOR}\n"
 git config --global user.name "github-actions"
 git config --global user.email "github-actions@users.noreply.github.com"
-git config --global pull.rebase false
-git config --global pull.ff true
+git config --global pull.rebase true
 
 # Clone GitHub pages branch with site
 git clone -b ${branch} https://github.com/${GITHUB_REPOSITORY}.git /tmp/repo
@@ -42,8 +41,14 @@ if [ $? -eq 0 ]; then
     printf "Changes\n"
     # Typically changes are just timestamps, so it's okay for an occasional merge conflict that fails
     git commit -m "Automated push to update library $(date '+%Y-%m-%d')" || exit 0
-    git pull origin ${branch} || exit 0
-    git push origin ${branch} || exit 0
+
+    # Keep trying until we are successful
+    while ! git push origin ${branch}
+        do
+            echo "Trying again..."
+            sleep $[ ( $RANDOM % 10 )  + 1 ]s
+            git pull origin ${branch}
+        done             
 else
     set -e
     printf "No changes\n"
