@@ -37,6 +37,21 @@ def write_file(content, filename):
         fd.write(content)
 
 
+def set_env_and_output(name, value):
+    """helper function to echo a key/value pair to the environement file
+
+    Parameters:
+    name (str)  : the name of the environment variable
+    value (str) : the value to write to file
+    """
+    for env_var in ("GITHUB_ENV", "GITHUB_OUTPUT"):
+        environment_file_path = os.environ.get(env_var)
+        print("Writing %s=%s to %s" % (name, value, env_var))
+
+        with open(environment_file_path, "a") as environment_file:
+            environment_file.write("%s=%s\n" % (name, value))
+
+
 def get_parser():
     parser = argparse.ArgumentParser(
         description="RSE-ops Docker Images Library Builder"
@@ -131,7 +146,7 @@ def main():
     filename = os.path.join(args.outdir, "%s.md" % args.container.replace("/", "-"))
     write_file(result, filename)
     print("Output file set to: %s" % filename)
-    print("::set-output name=filename::%s" % filename)
+    set_env_and_output("filename", filename)
 
 
 if __name__ == "__main__":
